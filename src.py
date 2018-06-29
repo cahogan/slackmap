@@ -11,6 +11,8 @@ dev_channel = "YOURDEVCHANNELID"                      # The ID of the channel to
 min_shared = 7                                        # The minimum number of shared users required to create an edge between channels.
 
 # Initializes the channel graph and weights. 
+# Combining these tasks into one function reduces the
+#  need to pass around PropertyMaps excessively.
 def init_channelweb():
 
         response = slack.api_call("channels.list")
@@ -27,7 +29,7 @@ def init_channelweb():
                 channel_names[v] = curchannel['name']
                 id = curchannel['id']
                 channel_ids[v] = id
-                                channeldata = slack.api_call("channels.info", channel=id)
+                channeldata = slack.api_call("channels.info", channel=id)
                 channel_users[v] = channeldata['channel']['members']
                 num_users[v] = len(channel_users[v])
                 if len(channel_users[v]) < 1:
